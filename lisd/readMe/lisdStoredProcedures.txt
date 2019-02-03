@@ -1,0 +1,559 @@
+///spAuthenticate///////////////////////////////
+CREATE PROCEDURE [dbo].[spAuthenticate]
+@userName varchar(255),
+@pwd varchar(255)
+AS
+BEGIN 
+	SELECT	userID
+	FROM	tbl_lisdLogin
+	WHERE	0=0
+	AND	userName = @userName
+	AND	pwd = @pwd
+END
+GO
+////////////////////////////////////////////////
+
+///spCaptureAdminFormClassTypeData/////////////
+CREATE PROCEDURE [dbo].[spCaptureAdminFormClassTypeData]
+@classType varchar(255)
+AS
+BEGIN 
+	INSERT INTO tbl_lisdClassType (classType)
+	VALUES(@classType)
+END
+GO
+////////////////////////////////////////////////
+
+
+///spCaptureAdminFormDepartmentData/////////////
+CREATE PROCEDURE [dbo].[spCaptureAdminFormDepartmentData]
+@department varchar(255)
+AS
+BEGIN 
+	INSERT INTO tbl_lisdDepartment (department)
+	VALUES(@department)
+END
+GO
+////////////////////////////////////////////////
+
+///spCaptureAdminFormLibrarianData/////////////
+CREATE PROCEDURE [dbo].[spCaptureAdminFormDataLibrarian]
+@librarian varchar(255)
+AS
+BEGIN 
+	INSERT INTO tbl_lisdLibrarian (librarian)
+	VALUES(@librarian)
+END
+GO
+////////////////////////////////////////////////
+
+///spCaptureAdminFormLocationData/////////////
+CREATE PROCEDURE [dbo].[spCaptureAdminFormLocationData]
+@location varchar(255)
+AS
+BEGIN 
+	INSERT INTO tbl_lisdLocation (location)
+	VALUES(@location)
+END
+GO
+////////////////////////////////////////////////
+
+///spCaptureFormData/////////////
+CREATE PROCEDURE [dbo].[spCaptureFormData]
+@librarianID int,
+@departmentID int,
+@classTypeID int,
+@classDate datetime,
+@className varchar(255),
+@courseNumber varchar(255),
+@instructor varchar(255),
+@undergraduates int,
+@graduates int,
+@faculty int,
+@other int,
+@locationID int
+
+AS
+
+INSERT INTO tbl_lisd (librarianID, departmentID, classTypeID, classDate, className, courseNumber, instructor, undergraduates, graduates, faculty, other, locationID)
+
+VALUES (@librarianID, @departmentID, @classTypeID, @classDate, @className, @courseNumber, @instructor, @undergraduates, @graduates, @faculty, @other, @locationID)
+GO
+
+////////////////////////////////////////////////
+
+///spDeleteAdminFormClassTypeData/////////////
+CREATE PROCEDURE [dbo].[spDeleteAdminFormClassTypeData]
+@classTypeID int
+AS
+BEGIN 
+	DELETE
+	FROM		tbl_lisdClassType
+	WHERE	classTypeID = @classTypeID
+END
+GO
+////////////////////////////////////////////////
+
+///spDeleteAdminFormDepartmentData/////////////
+CREATE PROCEDURE [dbo].[spDeleteAdminFormClassTypeData]
+CREATE PROCEDURE [dbo].[spDeleteAdminFormDepartmentData]
+@departmentID int
+AS
+BEGIN 
+	DELETE
+	FROM		tbl_lisdDepartment
+	WHERE	departmentID = @departmentID
+END
+GO
+////////////////////////////////////////////////
+
+///spDeleteAdminFormLibrarianData/////////////
+CREATE PROCEDURE [dbo].[spDeleteAdminFormLibrarianData]
+@librarianID int
+AS
+BEGIN 
+	DELETE
+	FROM		tbl_lisdLibrarian
+	WHERE	librarianID = @librarianID
+END
+GO
+
+////////////////////////////////////////////////
+
+///spDeleteAdminFormLocationData/////////////
+CREATE PROCEDURE [dbo].[spDeleteAdminFormLocationData]
+@locationID int
+AS
+BEGIN 
+	DELETE
+	FROM		tbl_lisdLocation
+	WHERE	locationID = @locationID
+END
+GO
+////////////////////////////////////////////////
+
+///spGetClassData/////////////
+CREATE PROCEDURE [dbo].[spGetClassData]
+@librarianID int,
+@fiscalYearStart datetime,
+@fiscalYearEnd datetime
+AS
+BEGIN 
+	SELECT	a.lisdID, c.department, d.classType, e.location, a.classDate, a.className, a.courseNumber, a.instructor, a.undergraduates, a.graduates, a.faculty, a.other
+	FROM		tbl_lisd a, tbl_lisdDepartment c, tbl_lisdClassType d, tbl_lisdLocation e	
+	WHERE  	a.librarianID = @librarianID
+	AND		a.classDate BETWEEN @fiscalYearStart AND @fiscalYearEnd
+	AND		a.departmentID = c.departmentID
+	AND		a.classTypeID = d.classTypeID
+	AND		a.locationID = e.locationID 
+END
+GO
+////////////////////////////////////////////////
+
+///spGetClassDataEdit/////////////
+CREATE PROCEDURE [dbo].[spGetClassDataEdit]
+@lisdID int
+AS
+BEGIN 
+	SELECT	*
+	FROM		tbl_lisd a, tbl_lisdLibrarian b, tbl_lisdDepartment c, tbl_lisdClassType d, tbl_lisdLocation e	
+	WHERE  	a.lisdID = @lisdID
+	AND		a.librarianID = b.librarianID
+	AND		a.departmentID = c.departmentID
+	AND		a.classTypeID = d.classTypeID
+	AND		a.locationID = e.locationID 
+END
+GO
+////////////////////////////////////////////////
+
+///spGetClassTotals/////////////
+CREATE PROCEDURE [dbo].[spGetClassTotals]
+@selectedDateStart int,
+@selectedDateEnd int
+AS
+BEGIN 
+	SELECT 	COUNT(className) AS classCount
+	FROM		tbl_lisd 
+	WHERE	YEAR(classDate) BETWEEN @selectedDateStart  AND @selectedDateEnd	
+END
+GO
+////////////////////////////////////////////////
+
+///spGetClassTotalsLib/////////////
+CREATE PROCEDURE [dbo].[spGetClassTotalsLib]
+@librarianID int,
+@selectedDateStart int,
+@selectedDateEnd int
+AS
+BEGIN 
+	SELECT 	COUNT(className) AS classCount
+	FROM		tbl_lisd 
+	WHERE	librarianID = @librarianID
+	AND		YEAR(classDate) BETWEEN @selectedDateStart  AND @selectedDateEnd	
+END
+GO
+////////////////////////////////////////////////
+
+///spGetClassTypeData/////////////
+CREATE PROCEDURE [dbo].[spGetClassTypeData]
+AS
+BEGIN 
+	SELECT classTypeID, classType
+	FROM    tbl_lisdClassType
+END
+GO
+////////////////////////////////////////////////
+
+///spGetClassTypeName/////////////
+CREATE PROCEDURE [dbo].[spGetClassTypeName]
+@classTypeID int
+AS
+BEGIN 
+	SELECT	classType
+	FROM		tbl_lisdClassType
+	WHERE	classTypeID = @classTypeID
+END
+GO
+////////////////////////////////////////////////
+
+///spGetDepartmentData/////////////
+CREATE PROCEDURE [dbo].[spGetDepartmentData]
+AS
+BEGIN 
+	SELECT 	departmentID, department
+	FROM    	tbl_lisdDepartment
+	ORDER BY	department
+END
+GO
+////////////////////////////////////////////////
+
+///spGetDepartmentName/////////////
+CREATE PROCEDURE [dbo].[spGetDepartmentName]
+@departmentID int
+AS
+BEGIN 
+	SELECT	department
+	FROM		tbl_lisdDepartment
+	WHERE	departmentID = @departmentID
+END
+GO
+////////////////////////////////////////////////
+
+///spGetFacultyData/////////////
+CREATE PROCEDURE [dbo].[spGetFacultyData]
+@departmentID int,
+@selectedDate datetime
+AS
+BEGIN 
+	SELECT	SUM(faculty) AS faculty 
+	FROM    	tbl_lisd 
+	WHERE  	departmentID = @departmentID
+	AND    		MONTH(classDate) = DATEPART(m, @selectedDate) 
+	AND		YEAR(classDate) = DATEPART(yyyy, @selectedDate)
+END
+GO
+////////////////////////////////////////////////
+
+///spGetFiscalYearTotals/////////////
+CREATE PROCEDURE [dbo].[spGetFiscalYearTotals]
+@fiscalYearStart datetime,
+@fiscalYearEnd datetime
+AS
+BEGIN 
+	SELECT	SUM(undergraduates) AS underGraduates, SUM(graduates) AS graduates, SUM(faculty) AS faculty, SUM(other) AS other
+	FROM		tbl_lisd
+	WHERE	classDate BETWEEN @fiscalYearStart AND @fiscalYearEnd
+END
+GO
+////////////////////////////////////////////////
+
+///spGetFiscalYearTotalsLib/////////////
+CREATE PROCEDURE [dbo].[spGetFiscalYearTotalsLib]
+@librarianID int,
+@fiscalYearStart datetime,
+@fiscalYearEnd datetime
+AS
+BEGIN 
+	SELECT	SUM(undergraduates) AS underGraduates, SUM(graduates) AS graduates, SUM(faculty) AS faculty, SUM(other) AS other
+	FROM		tbl_lisd
+	WHERE	librarianID = @librarianID
+	AND		classDate BETWEEN @fiscalYearStart AND @fiscalYearEnd
+END
+GO
+////////////////////////////////////////////////
+
+///spGetGraduateData/////////////
+CREATE PROCEDURE [dbo].[spGetGraduateData]
+@departmentID int,
+@selectedDate datetime
+
+AS
+BEGIN 
+	SELECT	SUM(graduates) AS graduates 
+	FROM    	tbl_lisd 
+	WHERE  	departmentID = @departmentID
+	AND    		MONTH(classDate) = DATEPART(m, @selectedDate) 
+	AND		YEAR(classDate) = DATEPART(yyyy, @selectedDate)
+END
+GO
+////////////////////////////////////////////////
+
+///spGetLibrarianData/////////////
+CREATE PROCEDURE [dbo].[spGetLibrarianData]
+AS
+BEGIN 
+	SELECT 	librarianID, librarian
+	FROM    	tbl_lisdLibrarian
+	ORDER BY 	librarian
+END
+GO
+////////////////////////////////////////////////
+
+///spGetLibrarianName/////////////
+CREATE PROCEDURE [dbo].[spGetLibrarianName]
+@librarianID int
+AS
+BEGIN 
+	SELECT	librarian
+	FROM		tbl_lisdLibrarian
+	WHERE	librarianID = @librarianID
+END
+GO
+////////////////////////////////////////////////
+
+///spGetLocationData/////////////
+CREATE PROCEDURE [dbo].[spGetLocationData]
+AS
+BEGIN 
+	SELECT locationID, location
+	FROM    tbl_lisdLocation
+END
+GO
+////////////////////////////////////////////////
+
+///spGetLocationName/////////////
+CREATE PROCEDURE [dbo].[spGetLocationName]
+@locationID int
+AS
+BEGIN 
+	SELECT	location
+	FROM		tbl_lisdLocation
+	WHERE	locationID = @locationID
+END
+GO
+////////////////////////////////////////////////
+
+///spGetOtherData/////////////
+CREATE PROCEDURE [dbo].[spGetOtherData]
+@departmentID int,
+@selectedDate datetime
+AS
+BEGIN 
+	SELECT	SUM(other) AS other 
+	FROM    	tbl_lisd 
+	WHERE  	departmentID = @departmentID
+	AND    		MONTH(classDate) = DATEPART(m, @selectedDate) 
+	AND		YEAR(classDate) = DATEPART(yyyy, @selectedDate)
+END
+GO
+////////////////////////////////////////////////
+
+///spGetTotalClassesByClassTypeYear/////////////
+CREATE PROCEDURE [dbo].[spGetTotalClassesByClassTypeYear]
+@selectedClassDateStart int,
+@selectedClassDateEnd int
+AS
+BEGIN 
+	SELECT 	classType, COUNT(a.className) AS classCount
+	FROM		tbl_lisd a, tbl_lisdClassType b
+	WHERE	a.classTypeID = b.classtypeID
+	AND		YEAR(classDate) BETWEEN @selectedClassDateStart  AND @selectedClassDateEnd
+	Group By 	b.classType	
+END
+GO
+////////////////////////////////////////////////
+
+///spGetTotalClassesByClassTypeYearLib/////////////
+CREATE PROCEDURE [dbo].[spGetTotalClassesByClassTypeYearLib]
+@librarianID int,
+@selectedClassDateStart int,
+@selectedClassDateEnd int
+AS
+BEGIN 
+	SELECT 	classType, COUNT(a.className) AS classCount
+	FROM		tbl_lisd a, tbl_lisdClassType b
+	WHERE	a.librarianID = @librarianID
+	AND		a.classTypeID = b.classtypeID
+	AND		YEAR(classDate) BETWEEN @selectedClassDateStart  AND @selectedClassDateEnd
+	Group By 	b.classType	
+END
+GO
+////////////////////////////////////////////////
+
+///spGetTotalClassesByDepartmentYear/////////////
+CREATE PROCEDURE [dbo].[spGetTotalClassesByDepartmentYear]
+@selectedClassDateStart int,
+@selectedClassDateEnd int
+AS
+BEGIN 
+	SELECT 	department, COUNT(a.className) AS classCount
+	FROM		tbl_lisd a, tbl_lisdDepartment b
+	WHERE	a.departmentID = b.departmentID
+	AND		YEAR(classDate) BETWEEN @selectedClassDateStart  AND @selectedClassDateEnd
+	Group By 	b.department	
+END
+GO
+////////////////////////////////////////////////
+
+///spGetTotalClassesByDepartmentYearLib/////////////
+CREATE PROCEDURE [dbo].[spGetTotalClassesByDepartmentYearLib]
+@librarianID int,
+@selectedClassDateStart int,
+@selectedClassDateEnd int
+AS
+BEGIN 
+	SELECT 	department, COUNT(a.className) AS classCount
+	FROM		tbl_lisd a, tbl_lisdDepartment b
+	WHERE	a.librarianID = @librarianID
+	AND		a.departmentID = b.departmentID
+	AND		YEAR(classDate) BETWEEN @selectedClassDateStart  AND @selectedClassDateEnd
+	Group By 	b.department	
+END
+GO
+////////////////////////////////////////////////
+
+///spGetTotalClassesByLocationYear/////////////
+CREATE PROCEDURE [dbo].[spGetTotalClassesByLocationYear]
+@selectedClassDateStart int,
+@selectedClassDateEnd int
+AS
+BEGIN 
+	SELECT 	location, COUNT(a.className) AS classCount
+	FROM		tbl_lisd a, tbl_lisdLocation b
+	WHERE	a.locationID = b.locationID
+	AND		YEAR(classDate) BETWEEN @selectedClassDateStart  AND @selectedClassDateEnd
+	Group By 	b.location	
+END
+GO
+////////////////////////////////////////////////
+
+///spGetTotalClassesByLocationYearLib/////////////
+CREATE PROCEDURE [dbo].[spGetTotalClassesByLocationYearLib]
+@librarianID int,
+@selectedClassDateStart int,
+@selectedClassDateEnd int
+AS
+BEGIN 
+	SELECT 	location, COUNT(a.className) AS classCount
+	FROM		tbl_lisd a, tbl_lisdLocation b
+	WHERE	a.librarianID = @librarianID
+	AND		a.locationID = b.locationID
+	AND		YEAR(classDate) BETWEEN @selectedClassDateStart  AND @selectedClassDateEnd
+	Group By 	b.location	
+END
+GO
+////////////////////////////////////////////////
+
+///spGetTotalStudentsByDepartmentYear/////////////
+CREATE PROCEDURE [dbo].[spGetTotalStudentsByDepartmentYear]
+@selectedClassDateStart int,
+@selectedClassDateEnd int
+AS
+BEGIN 
+	SELECT 	department, SUM(a.undergraduates) AS underGraduates, SUM(a.graduates) AS graduates, SUM(a.faculty) AS faculty, SUM(a.other) AS other
+	FROM		tbl_lisd a, tbl_lisdDepartment b
+	WHERE	a.departmentID = b.departmentID
+	AND		YEAR(classDate) BETWEEN @selectedClassDateStart  AND @selectedClassDateEnd
+	Group By 	b.department	
+END
+GO
+////////////////////////////////////////////////
+
+///spGetTotalStudentsByDepartmentYearLib/////////////
+CREATE PROCEDURE [dbo].[spGetTotalStudentsByDepartmentYearLib]
+@librarianID int,
+@selectedClassDateStart int,
+@selectedClassDateEnd int
+AS
+BEGIN 
+	SELECT 	department, SUM(a.undergraduates) AS underGraduates, SUM(a.graduates) AS graduates, SUM(a.faculty) AS faculty, SUM(a.other) AS other
+	FROM		tbl_lisd a, tbl_lisdDepartment b
+	WHERE	a.librarianID = @librarianID
+	AND		a.departmentID = b.departmentID
+	AND		YEAR(classDate) BETWEEN @selectedClassDateStart  AND @selectedClassDateEnd
+	Group By 	b.department	
+END
+GO
+////////////////////////////////////////////////
+
+///spGetUnderGraduateData/////////////
+CREATE PROCEDURE [dbo].[spGetUnderGraduateData]
+@departmentID int,
+@selectedDate datetime
+AS
+BEGIN 
+	SELECT	SUM(undergraduates) AS underGraduates 
+	FROM    	tbl_lisd 
+	WHERE  	departmentID = @departmentID
+	AND    		MONTH(classDate) = DATEPART(m, @selectedDate) 
+	AND		YEAR(classDate) = DATEPART(yyyy, @selectedDate)
+END
+GO
+////////////////////////////////////////////////
+
+///spUpdateAdminFormClassTypeData/////////////
+CREATE PROCEDURE [dbo].[spUpdateAdminFormClassTypeData]
+@classTypeID int,
+@classType  varchar(255)
+AS
+BEGIN 
+	UPDATE tbl_lisdClassType
+	SET
+			classType = @classType
+	WHERE	classTypeID = @classTypeID
+END
+GO
+////////////////////////////////////////////////
+
+
+///spUpdateAdminFormDepartmentData/////////////
+CREATE PROCEDURE [dbo].[spUpdateAdminFormDepartmentData]
+@departmentID int,
+@department  varchar(255)
+AS
+BEGIN 
+	UPDATE tbl_lisdDepartment
+	SET
+			department = @department
+	WHERE	departmentID = @departmentID
+END
+GO
+////////////////////////////////////////////////
+
+///spUpdateAdminFormLibrarianData/////////////
+CREATE PROCEDURE [dbo].[spUpdateAdminFormLibrarianData]
+@librarianID int,
+@librarian  varchar(255)
+AS
+BEGIN 
+	UPDATE tbl_lisdLibrarian
+	SET
+			librarian = @librarian
+	WHERE	librarianID = @librarianID
+END
+GO
+////////////////////////////////////////////////
+
+///spUpdateAdminFormLocationData/////////////
+CREATE PROCEDURE [dbo].[spUpdateAdminFormLocationData]
+@locationID int,
+@location  varchar(255)
+AS
+BEGIN 
+	UPDATE tbl_lisdLocation
+	SET
+			location = @location
+	WHERE	locationID = @locationID
+END
+GO
+////////////////////////////////////////////////

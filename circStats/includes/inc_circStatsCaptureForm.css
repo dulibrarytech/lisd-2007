@@ -1,0 +1,93 @@
+* /*Set's border, padding and margin to 0 for all values*/
+{
+padding: 0;
+margin: 0;
+border: 0;
+}
+body, html {
+color: #000; 
+font-family: Verdana, Arial, Tahoma, sans-serif;
+background-color: #9C797B; /*#efe5ae*/
+text-align: center; /*** Centers the design in old IE versions ***/
+}
+body {
+font-size: 85%;
+}
+p {padding: 7px 0 7px 0;}
+a {
+color: #8C5D5A;
+text-decoration:none
+}
+a:hover{
+color: #000000;
+text-decoration: underline;
+}
+
+h1, h2, h3, h4, h5 {
+font-weight: bold;
+padding-bottom: 5px;
+}
+h1 {
+font-size: 2em;
+}
+h2 {
+font-size: 1.4em;
+}
+h3 {
+font-size: 1.3em;
+}
+h1 a, #header h2{
+color: #fff;
+}
+h3 a, #header h3{
+color: #EFEBD6;
+}
+.clear { clear: both; }
+#mainContainer {
+margin: 5;
+min-height: 300px;
+background: #efe8bf;/*#EFEBD6*/
+border-top: 1px solid #cccccc;
+border-bottom: 1px solid #cccccc;
+border-left: 1px solid #cccccc;
+border-right: 1px solid #cccccc;
+text-align: left; /*** Because we centered the text in body we have to move the text back to left aligning ***/
+}
+/**************************
+HEADER
+**************************/
+#header {
+background: #6A6B6F;
+padding: 10px
+}
+/**************************
+CONTENT 
+**************************/
+* html .outer {
+/*** No need for hacking IE on this layout ***/
+}
+* html .inner {
+width: 100%;
+}
+.contentWrap {
+padding: 15px;
+}
+.contentWrap ol, .contentWrap ul {
+margin: 3px 0 5px 35px;
+}
+.contentWrap li {
+padding-bottom: 2px;
+}
+.contentWrap input { 
+border: 1px solid #6a6b6f;
+padding: 2px;
+}
+/**************************
+FOOTER
+**************************/
+#footer {
+/*width: 300px;*/
+margin: 0 auto;
+text-align: center;
+font-size: 70%;
+}

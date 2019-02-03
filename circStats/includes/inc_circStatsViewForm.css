@@ -1,0 +1,118 @@
+* /*Set's border, padding and margin to 0 for all values*/
+{
+padding: 0;
+margin: 0;
+border: 0;
+}
+body, html {
+color: #000; 
+font-family: Verdana, Arial, Tahoma, sans-serif;
+background-color: #EFEBD6;/*#efe5ae #FFFFEF*/
+text-align: center; /*** Centers the design in old IE versions ***/
+}
+body {
+font-size: 70%;
+line-height: 1.166;	
+}
+p {padding: 7px 0 7px 0;}
+a {
+color: #8C5D5A;
+text-decoration:none
+}
+a:hover{
+color: #000000;
+text-decoration: underline;
+}
+h1, h2, h3, h4, h5 {
+font-weight: bold;
+padding-bottom: 5px;
+}
+h1 {
+font-size: 2em;
+}
+h2 {
+font-size: 1.4em;
+}
+h3 {
+font-size: 1.3em;
+}
+h1 a, #header h2{
+color: #fff;
+}
+h3 a, #header h3{
+color: #EFEBD6;
+}
+/*.clear { clear: both; }*/
+#mainContainer {
+width: 850px;
+margin: 0 auto; /*** Centers the design ***/
+min-height: 300px;
+position:relative;
+background: #efe8bf;/*#efe5ae #EFEBD6*/
+border-top: 1px solid #cccccc;
+border-bottom: 1px solid #cccccc;
+border-left: 1px solid #cccccc;
+border-right: 1px solid #cccccc;
+text-align: left; /*** Because we centered the text in body we have to move the text back to left aligning ***/
+}
+* html #mainContainer {
+height: 300px; /*** IE doesn't support min-height, but instead it handles height as min-height so we need to hack the height ***/
+}
+/**************************
+HEADER
+**************************/
+#header {
+background: #6A6B6F;/**/
+padding: 10px
+}
+/**************************
+CONTENT 
+**************************/
+* html .outer {
+/*** No need for hacking IE on this layout ***/
+}
+.inner {
+width: 850px; /*** This width is for non-IE browsers. Mozilla makes this necessary. Be sure to check your layout in different browsers if you changes this value. Especially IE7 seems to create a horisontal scroll if this value is set too large ***/
+}
+* html .inner {
+width: 100%;
+}
+.contentWrap {
+padding: 20px;
+}
+.contentWrap ol, .contentWrap ul {
+margin: 3px 0 5px 35px;
+}
+.contentWrap li {
+padding-bottom: 2px;
+}
+.contentWrap input { 
+border: 1px solid #6a6b6f;
+padding: 2px;
+}
+#content{
+
+}
+.clear{
+clear: both;
+}
+
+.viewStats{
+  float:left;
+  width:500px;
+  padding:0px;
+}
+
+.statsForm {
+ float:right;
+ width:300px;
+ padding:0px;
+}
+/**/
+
+/**************************
+FOOTER
+**************************/
+#footer {
+margin: 0 auto;
+}
